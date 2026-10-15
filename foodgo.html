@@ -1,0 +1,3996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FoodGo - Advanced Food Delivery App</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f7f7f7;
+    color:#222;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none !important;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    height:72px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    gap:25px;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 2px 15px rgba(0,0,0,.1);
+}
+
+.logo{
+    font-size:29px;
+    font-weight:900;
+    color:#ff5200;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#222;
+}
+
+.location{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:bold;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.location small{
+    display:block;
+    color:#777;
+    font-weight:normal;
+    margin-bottom:3px;
+}
+
+.search{
+    flex:1;
+    max-width:600px;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:45px;
+    border:0;
+    background:#f3f3f3;
+    border-radius:9px;
+    padding:0 50px 0 18px;
+    outline:none;
+    font-size:14px;
+}
+
+.search button{
+    position:absolute;
+    right:0;
+    top:0;
+    width:50px;
+    height:45px;
+    background:transparent;
+    border:0;
+    font-size:18px;
+}
+
+.header-buttons{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-left:auto;
+}
+
+.header-buttons button{
+    background:#fff;
+    border:0;
+    font-weight:bold;
+}
+
+.cart-button{
+    position:relative;
+}
+
+.cart-number{
+    position:absolute;
+    top:-12px;
+    right:-12px;
+    background:#ff5200;
+    color:#fff;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+    min-height:470px;
+    background:linear-gradient(110deg,#ff5200,#ff8b00);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    padding:60px 8%;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-text{
+    max-width:650px;
+    z-index:5;
+}
+
+.hero-tag{
+    display:inline-block;
+    background:rgba(255,255,255,.18);
+    padding:9px 16px;
+    border-radius:25px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:60px;
+    line-height:1.05;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:1.6;
+    max-width:570px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:25px;
+}
+
+.hero-btn{
+    border:0;
+    padding:13px 22px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.hero-btn.primary{
+    background:#fff;
+    color:#ff5200;
+}
+
+.hero-btn.secondary{
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.4);
+}
+
+
+/* =====================================================
+   FLOATING FOOD BACKGROUND
+===================================================== */
+
+.floating-food{
+    position:absolute;
+    opacity:.2;
+    pointer-events:none;
+    animation:floatFood linear infinite;
+}
+
+.f1{
+    font-size:70px;
+    left:5%;
+    bottom:-80px;
+    animation-duration:12s;
+}
+
+.f2{
+    font-size:80px;
+    left:28%;
+    bottom:-100px;
+    animation-duration:15s;
+}
+
+.f3{
+    font-size:65px;
+    left:55%;
+    bottom:-80px;
+    animation-duration:11s;
+}
+
+.f4{
+    font-size:90px;
+    left:80%;
+    bottom:-100px;
+    animation-duration:17s;
+}
+
+.f5{
+    font-size:55px;
+    left:68%;
+    bottom:-70px;
+    animation-duration:13s;
+}
+
+@keyframes floatFood{
+    0%{
+        transform:translateY(0) rotate(0);
+    }
+    100%{
+        transform:translateY(-600px) rotate(360deg);
+    }
+}
+
+.hero-main-food{
+    position:absolute;
+    right:8%;
+    font-size:200px;
+    filter:drop-shadow(0 25px 20px rgba(0,0,0,.3));
+    animation:heroFood 3s ease-in-out infinite alternate;
+    z-index:4;
+}
+
+@keyframes heroFood{
+    from{
+        transform:translateY(0) rotate(-4deg);
+    }
+    to{
+        transform:translateY(-25px) rotate(7deg);
+    }
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.section{
+    max-width:1450px;
+    margin:auto;
+    padding:45px 7%;
+}
+
+.section h2{
+    font-size:28px;
+    margin-bottom:25px;
+}
+
+
+/* =====================================================
+   CATEGORIES
+===================================================== */
+
+.categories{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.category{
+    min-width:110px;
+    background:#fff;
+    padding:13px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,.07);
+    transition:.3s;
+}
+
+.category:hover{
+    transform:translateY(-8px) scale(1.03);
+}
+
+.category-icon{
+    width:78px;
+    height:78px;
+    margin:auto;
+    border-radius:50%;
+    background:#fff0e8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:43px;
+}
+
+.category p{
+    margin-top:9px;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   OFFERS
+===================================================== */
+
+.offers{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.offer{
+    height:165px;
+    border-radius:18px;
+    padding:25px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(120deg,#ff5200,#ff8c00);
+}
+
+.offer:nth-child(2){
+    background:linear-gradient(120deg,#e52d2d,#ff7777);
+}
+
+.offer:nth-child(3){
+    background:linear-gradient(120deg,#4134c5,#7c73ff);
+}
+
+.offer h3{
+    font-size:23px;
+}
+
+.offer p{
+    margin-top:10px;
+}
+
+.offer-icon{
+    position:absolute;
+    right:20px;
+    bottom:-12px;
+    font-size:80px;
+}
+
+.offer:after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:250%;
+    background:rgba(255,255,255,.25);
+    top:-70%;
+    left:-150px;
+    transform:rotate(20deg);
+    animation:shine 4s infinite;
+}
+
+@keyframes shine{
+    0%{
+        left:-150px;
+    }
+    100%{
+        left:600px;
+    }
+}
+
+
+/* =====================================================
+   RESTAURANT FILTERS
+===================================================== */
+
+.filters{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:25px;
+}
+
+.filter{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:10px 18px;
+    border-radius:25px;
+    white-space:nowrap;
+}
+
+.filter.active{
+    background:#222;
+    color:#fff;
+}
+
+
+/* =====================================================
+   RESTAURANTS
+===================================================== */
+
+.restaurants{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.restaurant{
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.restaurant:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
+
+.restaurant-image{
+    height:180px;
+    background:#fff0e8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:95px;
+    position:relative;
+}
+
+.discount{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    background:#ff5200;
+    color:#fff;
+    padding:6px 9px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.heart{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#fff;
+    border:0;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+    font-size:18px;
+}
+
+.restaurant-info{
+    padding:16px;
+}
+
+.restaurant-info h3{
+    margin-bottom:8px;
+}
+
+.info{
+    color:#666;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.rating{
+    display:inline-block;
+    background:#159447;
+    color:#fff;
+    padding:3px 6px;
+    border-radius:5px;
+    font-size:11px;
+}
+
+.view-menu{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-top:1px solid #eee;
+    background:#fff;
+    color:#ff5200;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   GENERAL MODAL
+===================================================== */
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal-bg.show{
+    display:flex;
+}
+
+.modal{
+    width:min(850px,96vw);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:18px;
+    padding:28px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:18px;
+    top:12px;
+    border:0;
+    background:transparent;
+    font-size:30px;
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.menu-foods{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-top:25px;
+}
+
+.food-item{
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.food-icon{
+    font-size:45px;
+}
+
+.food-name{
+    flex:1;
+}
+
+.add{
+    border:0;
+    background:#ff5200;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   CART
+===================================================== */
+
+.cart-side{
+    position:fixed;
+    top:0;
+    right:0;
+    width:min(520px,95vw);
+    height:100vh;
+    background:#fff;
+    z-index:2500;
+    padding:28px;
+    overflow-y:auto;
+    transform:translateX(100%);
+    transition:.35s;
+    box-shadow:-10px 0 30px rgba(0,0,0,.15);
+}
+
+.cart-side.show{
+    transform:translateX(0);
+}
+
+.cart-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:2400;
+    display:none;
+}
+
+.cart-backdrop.show{
+    display:block;
+}
+
+.cart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cart-food{
+    font-size:40px;
+}
+
+.cart-name{
+    flex:1;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.quantity button{
+    width:28px;
+    height:28px;
+    border:0;
+    border-radius:50%;
+}
+
+.price-summary{
+    margin-top:25px;
+    border-top:1px solid #eee;
+    padding-top:18px;
+}
+
+.price-row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+    color:#555;
+}
+
+.price-row.total{
+    color:#111;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.coupon-box{
+    display:flex;
+    gap:8px;
+    margin:20px 0;
+}
+
+.coupon-box input{
+    flex:1;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:7px;
+}
+
+.coupon-box button{
+    background:#222;
+    color:#fff;
+    border:0;
+    border-radius:7px;
+    padding:0 15px;
+}
+
+.checkout-btn{
+    width:100%;
+    background:#ff5200;
+    color:#fff;
+    border:0;
+    padding:15px;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:15px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.form-group{
+    margin-bottom:10px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+}
+
+.form-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.primary-btn{
+    background:#ff5200;
+    color:#fff;
+    border:0;
+    padding:13px 20px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.secondary-btn{
+    background:#eee;
+    border:0;
+    padding:13px 20px;
+    border-radius:8px;
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:20px;
+    background:#fff5ef;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.profile-photo{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#ff5200;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:38px;
+    overflow:hidden;
+}
+
+.profile-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.profile-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    overflow-x:auto;
+}
+
+.profile-tab{
+    padding:10px 18px;
+    border:1px solid #ddd;
+    border-radius:25px;
+    background:#fff;
+    white-space:nowrap;
+}
+
+.profile-tab.active{
+    background:#222;
+    color:#fff;
+}
+
+.profile-content{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+}
+
+
+/* =====================================================
+   ADDRESSES
+===================================================== */
+
+.address-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.address-card{
+    border:1px solid #eee;
+    padding:18px;
+    border-radius:12px;
+    position:relative;
+}
+
+.address-card h3{
+    margin-bottom:8px;
+}
+
+.address-card p{
+    color:#666;
+    line-height:1.5;
+}
+
+.address-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+.order-card{
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:15px;
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.order-status{
+    color:#159447;
+    font-weight:bold;
+}
+
+.order-items{
+    margin:15px 0;
+    color:#666;
+}
+
+.order-card button{
+    padding:9px 14px;
+    border:0;
+    background:#ff5200;
+    color:#fff;
+    border-radius:6px;
+}
+
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+
+.checkout-options{
+    display:grid;
+    gap:12px;
+    margin:20px 0;
+}
+
+.payment-option{
+    border:1px solid #ddd;
+    padding:15px;
+    border-radius:10px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.payment-option.selected{
+    border:2px solid #ff5200;
+    background:#fff8f3;
+}
+
+.delivery-card{
+    background:#f8f8f8;
+    padding:15px;
+    border-radius:10px;
+}
+
+
+/* =====================================================
+   TRACKING
+===================================================== */
+
+.tracking{
+    margin-top:25px;
+}
+
+.track-line{
+    height:5px;
+    background:#ddd;
+    border-radius:5px;
+    position:relative;
+    margin:35px 5% 45px;
+}
+
+.track-progress{
+    height:100%;
+    width:0;
+    background:#ff5200;
+    transition:1s;
+}
+
+.track-dot{
+    width:24px;
+    height:24px;
+    background:#ddd;
+    border-radius:50%;
+    position:absolute;
+    top:-9px;
+}
+
+.track-dot.active{
+    background:#ff5200;
+}
+
+.d1{left:0;}
+.d2{left:33%;}
+.d3{left:66%;}
+.d4{right:0;}
+
+.track-labels{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    text-align:center;
+    gap:5px;
+    font-size:12px;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translate(-50%,30px);
+    background:#222;
+    color:#fff;
+    padding:14px 22px;
+    border-radius:9px;
+    opacity:0;
+    pointer-events:none;
+    z-index:5000;
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    background:#222;
+    color:#ddd;
+    padding:40px 7%;
+    text-align:center;
+    margin-top:30px;
+}
+
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
+.mobile-nav{
+    display:none;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1100px){
+
+    .restaurants{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .hero-main-food{
+        font-size:150px;
+    }
+
+}
+
+@media(max-width:850px){
+
+    header{
+        height:auto;
+        padding:12px 5%;
+        flex-wrap:wrap;
+    }
+
+    .location{
+        display:none;
+    }
+
+    .search{
+        order:3;
+        flex-basis:100%;
+        max-width:none;
+    }
+
+    .hero{
+        min-height:500px;
+    }
+
+    .hero-main-food{
+        opacity:.25;
+        right:5%;
+    }
+
+    .offers{
+        grid-template-columns:1fr;
+    }
+
+    .restaurants{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .mobile-nav{
+        display:flex;
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        height:65px;
+        background:#fff;
+        z-index:1500;
+        justify-content:space-around;
+        align-items:center;
+        box-shadow:0 -3px 15px rgba(0,0,0,.15);
+    }
+
+    .mobile-nav button{
+        border:0;
+        background:#fff;
+        font-size:11px;
+    }
+
+    .mobile-nav span{
+        display:block;
+        font-size:20px;
+        margin-bottom:3px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .hero{
+        padding:45px 6%;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero-main-food{
+        font-size:100px;
+    }
+
+    .restaurants{
+        grid-template-columns:1fr;
+    }
+
+    .menu-foods{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .address-grid{
+        grid-template-columns:1fr;
+    }
+
+    .track-labels{
+        font-size:10px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="logo">
+        Food<span>Go</span>
+    </div>
+
+    <div class="location"
+         onclick="openProfile('addresses')">
+
+        📍
+
+        <div>
+            <small>Deliver to</small>
+            <span id="headerAddress">Select address ▾</span>
+        </div>
+
+    </div>
+
+    <div class="search">
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search restaurants, dishes..."
+            oninput="searchFood()"
+        >
+
+        <button>🔍</button>
+
+    </div>
+
+    <div class="header-buttons">
+
+        <button onclick="openProfile('profile')">
+            👤 <span id="headerUser">Sign In</span>
+        </button>
+
+        <button
+            class="cart-button"
+            onclick="openCart()"
+        >
+
+            🛒
+
+            <span
+                class="cart-number"
+                id="cartCount"
+            >0</span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <div class="hero-tag">
+            🔥 #1 Food Delivery App
+        </div>
+
+        <h1>
+            Good food.<br>
+            Good mood.
+        </h1>
+
+        <p>
+            Discover delicious food from the best
+            restaurants around you. Order your
+            favorites and get them delivered fast.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="hero-btn primary"
+                onclick="scrollToRestaurants()"
+            >
+                🍽️ Explore Food
+            </button>
+
+            <button
+                class="hero-btn secondary"
+                onclick="openProfile('profile')"
+            >
+                👤 Create Profile
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="hero-main-food">
+        🍔
+    </div>
+
+    <div class="floating-food f1">🍕</div>
+    <div class="floating-food f2">🍟</div>
+    <div class="floating-food f3">🍔</div>
+    <div class="floating-food f4">🍜</div>
+    <div class="floating-food f5">🍰</div>
+
+</section>
+
+
+<!-- =====================================================
+     CATEGORIES
+===================================================== -->
+
+<section class="section">
+
+    <h2>What's on your mind?</h2>
+
+    <div class="categories">
+
+        <div class="category"
+             onclick="filterCategory('pizza')">
+            <div class="category-icon">🍕</div>
+            <p>Pizza</p>
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('burger')">
+            <div class="category-icon">🍔</div>
+            <p>Burgers</p>
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('biryani')">
+            <div class="category-icon">🍛</div>
+            <p>Biryani</p>
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('chinese')">
+            <div class="category-icon">🍜</div>
+            <p>Chinese</p>
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('dessert')">
+            <div class="category-icon">🍰</div>
+            <p>Desserts</p>
+        </div>
+
+        <div class="category"
+             onclick="filterCategory('healthy')">
+            <div class="category-icon">🥗</div>
+            <p>Healthy</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     OFFERS
+===================================================== -->
+
+<section class="section">
+
+    <h2>Best offers for you</h2>
+
+    <div class="offers">
+
+        <div class="offer">
+
+            <h3>50% OFF</h3>
+
+            <p>On your first order</p>
+
+            <div class="offer-icon">🏷️</div>
+
+        </div>
+
+        <div class="offer">
+
+            <h3>FREE DELIVERY</h3>
+
+            <p>On orders above ₹299</p>
+
+            <div class="offer-icon">🛵</div>
+
+        </div>
+
+        <div class="offer">
+
+            <h3>₹100 OFF</h3>
+
+            <p>Use FOOD100</p>
+
+            <div class="offer-icon">🎁</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RESTAURANTS
+===================================================== -->
+
+<section
+    class="section"
+    id="restaurantSection"
+>
+
+    <h2>Top restaurants near you</h2>
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            onclick="filterRestaurants('all',this)"
+        >All</button>
+
+        <button
+            class="filter"
+            onclick="filterRestaurants('pizza',this)"
+        >Pizza</button>
+
+        <button
+            class="filter"
+            onclick="filterRestaurants('burger',this)"
+        >Burgers</button>
+
+        <button
+            class="filter"
+            onclick="filterRestaurants('biryani',this)"
+        >Biryani</button>
+
+        <button
+            class="filter"
+            onclick="filterRestaurants('chinese',this)"
+        >Chinese</button>
+
+        <button
+            class="filter"
+            onclick="filterRestaurants('dessert',this)"
+        >Desserts</button>
+
+    </div>
+
+    <div
+        class="restaurants"
+        id="restaurants"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <h2>🍔 FoodGo</h2>
+
+    <br>
+
+    Advanced Food Delivery Application
+
+    <br><br>
+
+    Search • Order • Pay • Track
+
+    <br><br>
+
+    © 2026 FoodGo
+
+</footer>
+
+
+<!-- =====================================================
+     MOBILE NAV
+===================================================== -->
+
+<div class="mobile-nav">
+
+    <button onclick="scrollTopHome()">
+        <span>🏠</span>
+        Home
+    </button>
+
+    <button onclick="scrollToRestaurants()">
+        <span>🍽️</span>
+        Food
+    </button>
+
+    <button onclick="openCart()">
+        <span>🛒</span>
+        Cart
+    </button>
+
+    <button onclick="openProfile('profile')">
+        <span>👤</span>
+        Profile
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     MENU MODAL
+===================================================== -->
+
+<div
+    class="modal-bg"
+    id="menuModal"
+>
+
+    <div class="modal">
+
+        <button
+            class="close"
+            onclick="closeMenu()"
+        >×</button>
+
+        <div id="menuContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    class="modal-bg"
+    id="profileModal"
+>
+
+    <div class="modal">
+
+        <button
+            class="close"
+            onclick="closeProfile()"
+        >×</button>
+
+        <div id="profileContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CHECKOUT MODAL
+===================================================== -->
+
+<div
+    class="modal-bg"
+    id="checkoutModal"
+>
+
+    <div class="modal">
+
+        <button
+            class="close"
+            onclick="closeCheckout()"
+        >×</button>
+
+        <h2>Checkout 🧾</h2>
+
+        <div
+            id="checkoutContent"
+            style="margin-top:20px"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ORDER TRACKING MODAL
+===================================================== -->
+
+<div
+    class="modal-bg"
+    id="trackingModal"
+>
+
+    <div class="modal">
+
+        <button
+            class="close"
+            onclick="closeTracking()"
+        >×</button>
+
+        <h2>Track Your Order 🚚</h2>
+
+        <div id="trackingContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CART
+===================================================== -->
+
+<div
+    class="cart-backdrop"
+    id="cartBackdrop"
+    onclick="closeCart()"
+></div>
+
+<div
+    class="cart-side"
+    id="cartSide"
+>
+
+    <div class="cart-header">
+
+        <h2>Your Cart 🛒</h2>
+
+        <button
+            class="close"
+            onclick="closeCart()"
+        >×</button>
+
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div
+        class="coupon-box"
+        id="couponBox"
+    >
+
+        <input
+            id="couponInput"
+            placeholder="Enter coupon code"
+        >
+
+        <button onclick="applyCoupon()">
+            APPLY
+        </button>
+
+    </div>
+
+    <div
+        class="price-summary"
+        id="priceSummary"
+    ></div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   DATA
+===================================================== */
+
+const restaurants = [
+
+{
+    id:1,
+    name:"The Pizza Hub",
+    type:"pizza",
+    rating:"4.6",
+    time:"25-30 min",
+    price:"₹300 for two",
+    emoji:"🍕",
+    offer:"50% OFF",
+    dishes:[
+        ["Cheese Burst Pizza","🍕",299],
+        ["Farmhouse Pizza","🍕",329],
+        ["Garlic Bread","🥖",149]
+    ]
+},
+
+{
+    id:2,
+    name:"Burger Street",
+    type:"burger",
+    rating:"4.5",
+    time:"20-25 min",
+    price:"₹250 for two",
+    emoji:"🍔",
+    offer:"20% OFF",
+    dishes:[
+        ["Classic Cheese Burger","🍔",199],
+        ["Double Patty Burger","🍔",279],
+        ["French Fries","🍟",119]
+    ]
+},
+
+{
+    id:3,
+    name:"Royal Biryani",
+    type:"biryani",
+    rating:"4.7",
+    time:"30-35 min",
+    price:"₹400 for two",
+    emoji:"🍛",
+    offer:"₹100 OFF",
+    dishes:[
+        ["Chicken Biryani","🍛",249],
+        ["Mutton Biryani","🍛",329],
+        ["Paneer Biryani","🍛",229]
+    ]
+},
+
+{
+    id:4,
+    name:"Dragon Bowl",
+    type:"chinese",
+    rating:"4.4",
+    time:"25-30 min",
+    price:"₹350 for two",
+    emoji:"🍜",
+    offer:"FREE DELIVERY",
+    dishes:[
+        ["Hakka Noodles","🍜",189],
+        ["Fried Rice","🍚",179],
+        ["Manchurian","🥡",199]
+    ]
+},
+
+{
+    id:5,
+    name:"Sweet Corner",
+    type:"dessert",
+    rating:"4.8",
+    time:"15-20 min",
+    price:"₹200 for two",
+    emoji:"🍰",
+    offer:"30% OFF",
+    dishes:[
+        ["Chocolate Cake","🍰",159],
+        ["Ice Cream","🍨",99],
+        ["Brownie","🍫",129]
+    ]
+},
+
+{
+    id:6,
+    name:"Green Bowl",
+    type:"healthy",
+    rating:"4.5",
+    time:"20-25 min",
+    price:"₹300 for two",
+    emoji:"🥗",
+    offer:"20% OFF",
+    dishes:[
+        ["Fresh Salad","🥗",169],
+        ["Healthy Bowl","🥙",219],
+        ["Fruit Bowl","🍓",149]
+    ]
+},
+
+{
+    id:7,
+    name:"Pizza Italiano",
+    type:"pizza",
+    rating:"4.3",
+    time:"30-35 min",
+    price:"₹450 for two",
+    emoji:"🍕",
+    offer:"₹150 OFF",
+    dishes:[
+        ["Pepperoni Pizza","🍕",399],
+        ["Veggie Pizza","🍕",289],
+        ["Pasta","🍝",249]
+    ]
+},
+
+{
+    id:8,
+    name:"Spice Kitchen",
+    type:"biryani",
+    rating:"4.6",
+    time:"25-30 min",
+    price:"₹350 for two",
+    emoji:"🍛",
+    offer:"FREE DELIVERY",
+    dishes:[
+        ["Hyderabadi Biryani","🍛",279],
+        ["Chicken 65","🍗",219],
+        ["Kebab","🍢",249]
+    ]
+}
+
+];
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+let cart =
+JSON.parse(
+    localStorage.getItem("foodgoCart") || "[]"
+);
+
+let profile =
+JSON.parse(
+    localStorage.getItem("foodgoProfile") || "null"
+);
+
+let addresses =
+JSON.parse(
+    localStorage.getItem("foodgoAddresses") || "[]"
+);
+
+let orders =
+JSON.parse(
+    localStorage.getItem("foodgoOrders") || "[]"
+);
+
+let favorites =
+JSON.parse(
+    localStorage.getItem("foodgoFavorites") || "[]"
+);
+
+let coupon = null;
+
+
+/* =====================================================
+   BASIC HELPERS
+===================================================== */
+
+function saveAll(){
+
+    localStorage.setItem(
+        "foodgoCart",
+        JSON.stringify(cart)
+    );
+
+    localStorage.setItem(
+        "foodgoProfile",
+        JSON.stringify(profile)
+    );
+
+    localStorage.setItem(
+        "foodgoAddresses",
+        JSON.stringify(addresses)
+    );
+
+    localStorage.setItem(
+        "foodgoOrders",
+        JSON.stringify(orders)
+    );
+
+    localStorage.setItem(
+        "foodgoFavorites",
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+/* =====================================================
+   RESTAURANTS
+===================================================== */
+
+function displayRestaurants(list=restaurants){
+
+    const container =
+    document.getElementById("restaurants");
+
+    container.innerHTML="";
+
+    if(list.length===0){
+
+        container.innerHTML=`
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:50px;
+                background:white;
+                border-radius:15px;
+            ">
+                <div style="font-size:50px">🔍</div>
+                <h3>No food found</h3>
+                <p style="color:#777;margin-top:8px">
+                    Try another restaurant or dish.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    list.forEach(r=>{
+
+        const liked =
+        favorites.includes(r.id);
+
+        container.innerHTML+=`
+
+        <div class="restaurant">
+
+            <div class="restaurant-image">
+
+                <button
+                    class="heart"
+                    onclick="toggleFavorite(${r.id})"
+                >
+                    ${liked ? "♥" : "♡"}
+                </button>
+
+                ${r.emoji}
+
+                <span class="discount">
+                    ${r.offer}
+                </span>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>${r.name}</h3>
+
+                <div class="info">
+
+                    <span class="rating">
+                        ★ ${r.rating}
+                    </span>
+
+                    ${r.time}
+
+                    <br>
+
+                    ${r.price}
+
+                    <br>
+
+                    ${r.type.toUpperCase()}
+
+                </div>
+
+            </div>
+
+            <button
+                class="view-menu"
+                onclick="openMenu(${r.id})"
+            >
+                VIEW MENU →
+            </button>
+
+        </div>
+
+        `;
+    });
+
+}
+
+
+function filterRestaurants(type,button){
+
+    document
+    .querySelectorAll(".filter")
+    .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if(type==="all"){
+        displayRestaurants(restaurants);
+    }else{
+        displayRestaurants(
+            restaurants.filter(
+                r=>r.type===type
+            )
+        );
+    }
+
+}
+
+
+function filterCategory(type){
+
+    const result =
+    restaurants.filter(
+        r=>r.type===type
+    );
+
+    displayRestaurants(result);
+
+    scrollToRestaurants();
+
+}
+
+
+function searchFood(){
+
+    const value =
+    document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+    if(!value){
+        displayRestaurants();
+        return;
+    }
+
+    const result =
+    restaurants.filter(r=>
+
+        r.name.toLowerCase().includes(value)
+
+        ||
+
+        r.type.toLowerCase().includes(value)
+
+        ||
+
+        r.dishes.some(
+            d=>
+            d[0].toLowerCase().includes(value)
+        )
+
+    );
+
+    displayRestaurants(result);
+
+}
+
+
+/* =====================================================
+   FAVORITES
+===================================================== */
+
+function toggleFavorite(id){
+
+    if(favorites.includes(id)){
+
+        favorites =
+        favorites.filter(
+            x=>x!==id
+        );
+
+        showToast(
+            "Removed from favorites"
+        );
+
+    }else{
+
+        favorites.push(id);
+
+        showToast(
+            "Added to favorites ❤️"
+        );
+
+    }
+
+    saveAll();
+
+    displayRestaurants();
+
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+function openMenu(id){
+
+    const r =
+    restaurants.find(
+        x=>x.id===id
+    );
+
+    let html=`
+
+        <h2>
+            ${r.emoji} ${r.name}
+        </h2>
+
+        <p style="
+            color:#777;
+            margin-top:8px;
+        ">
+            ★ ${r.rating}
+            • ${r.time}
+            • ${r.price}
+        </p>
+
+        <div class="menu-foods">
+    `;
+
+    r.dishes.forEach(
+        (dish,index)=>{
+
+            html+=`
+
+            <div class="food-item">
+
+                <div class="food-icon">
+                    ${dish[1]}
+                </div>
+
+                <div class="food-name">
+
+                    <b>${dish[0]}</b>
+
+                    <br>
+
+                    ₹${dish[2]}
+
+                </div>
+
+                <button
+                    class="add"
+                    onclick="addToCart(${id},${index})"
+                >
+                    ADD
+                </button>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+    html+=`</div>`;
+
+    document
+    .getElementById("menuContent")
+    .innerHTML=html;
+
+    document
+    .getElementById("menuModal")
+    .classList.add("show");
+
+}
+
+
+function closeMenu(){
+
+    document
+    .getElementById("menuModal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   CART
+===================================================== */
+
+function addToCart(
+    restaurantID,
+    dishIndex
+){
+
+    const r =
+    restaurants.find(
+        x=>x.id===restaurantID
+    );
+
+    const dish =
+    r.dishes[dishIndex];
+
+    const key =
+    restaurantID+"-"+dishIndex;
+
+    const existing =
+    cart.find(
+        x=>x.key===key
+    );
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+
+            key:key,
+            restaurantID:restaurantID,
+            dishIndex:dishIndex,
+            quantity:1
+
+        });
+
+    }
+
+    saveAll();
+
+    updateCart();
+
+    showToast(
+        `${dish[0]} added to cart 🛒`
+    );
+
+}
+
+
+function updateCart(){
+
+    document
+    .getElementById("cartCount")
+    .innerText=
+    cart.reduce(
+        (sum,x)=>sum+x.quantity,
+        0
+    );
+
+    displayCart();
+
+}
+
+
+function displayCart(){
+
+    const container =
+    document.getElementById("cartItems");
+
+    if(!cart.length){
+
+        container.innerHTML=`
+
+            <div style="
+                text-align:center;
+                padding:45px 10px;
+                color:#777;
+            ">
+
+                <div style="font-size:60px">
+                    🛒
+                </div>
+
+                <h3>Your cart is empty</h3>
+
+                <p style="margin-top:8px">
+                    Add delicious food to continue.
+                </p>
+
+            </div>
+
+        `;
+
+        document
+        .getElementById("priceSummary")
+        .innerHTML="";
+
+        return;
+
+    }
+
+    container.innerHTML="";
+
+    cart.forEach(item=>{
+
+        const r =
+        restaurants.find(
+            x=>x.id===item.restaurantID
+        );
+
+        const dish =
+        r.dishes[item.dishIndex];
+
+        container.innerHTML+=`
+
+            <div class="cart-item">
+
+                <div class="cart-food">
+                    ${dish[1]}
+                </div>
+
+                <div class="cart-name">
+
+                    <b>${dish[0]}</b>
+
+                    <br>
+
+                    ₹${dish[2]}
+
+                </div>
+
+                <div class="quantity">
+
+                    <button
+                        onclick="
+                        changeQuantity(
+                            '${item.key}',
+                            -1
+                        )"
+                    >
+                        −
+                    </button>
+
+                    ${item.quantity}
+
+                    <button
+                        onclick="
+                        changeQuantity(
+                            '${item.key}',
+                            1
+                        )"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    calculatePrice();
+
+}
+
+
+function changeQuantity(
+    key,
+    change
+){
+
+    const item =
+    cart.find(
+        x=>x.key===key
+    );
+
+    if(!item) return;
+
+    item.quantity+=change;
+
+    if(item.quantity<=0){
+
+        cart =
+        cart.filter(
+            x=>x.key!==key
+        );
+
+    }
+
+    saveAll();
+
+    updateCart();
+
+}
+
+
+function calculateSubtotal(){
+
+    return cart.reduce(
+        (total,item)=>{
+
+            const r =
+            restaurants.find(
+                x=>x.id===item.restaurantID
+            );
+
+            const dish =
+            r.dishes[item.dishIndex];
+
+            return total+
+            dish[2]*item.quantity;
+
+        },
+        0
+    );
+
+}
+
+
+function calculatePrice(){
+
+    const subtotal =
+    calculateSubtotal();
+
+    let discount=0;
+
+    let delivery =
+    subtotal>=299 ? 0 : 40;
+
+    if(coupon==="FOOD100"){
+
+        discount=Math.min(
+            100,
+            subtotal
+        );
+
+    }
+
+    if(coupon==="WELCOME50"){
+
+        discount=Math.min(
+            50,
+            subtotal*.5
+        );
+
+    }
+
+    if(coupon==="FREEDEL"){
+
+        delivery=0;
+
+    }
+
+    const platform =
+    subtotal>0 ? 5 : 0;
+
+    const gst =
+    Math.round(
+        (subtotal-discount)*.05
+    );
+
+    const total =
+    subtotal-
+    discount+
+    delivery+
+    platform+
+    gst;
+
+    document
+    .getElementById("priceSummary")
+    .innerHTML=`
+
+        <div class="price-row">
+            <span>Item total</span>
+            <span>₹${subtotal}</span>
+        </div>
+
+        <div class="price-row">
+            <span>Discount</span>
+            <span style="color:#159447">
+                -₹${discount}
+            </span>
+        </div>
+
+        <div class="price-row">
+            <span>Delivery fee</span>
+            <span>₹${delivery}</span>
+        </div>
+
+        <div class="price-row">
+            <span>Platform fee</span>
+            <span>₹${platform}</span>
+        </div>
+
+        <div class="price-row">
+            <span>GST</span>
+            <span>₹${gst}</span>
+        </div>
+
+        <div class="price-row total">
+            <span>Total</span>
+            <span>₹${total}</span>
+        </div>
+
+        <button
+            class="checkout-btn"
+            onclick="openCheckout()"
+        >
+            PROCEED TO CHECKOUT
+        </button>
+
+    `;
+
+}
+
+
+function applyCoupon(){
+
+    const code =
+    document
+    .getElementById("couponInput")
+    .value
+    .trim()
+    .toUpperCase();
+
+    const valid =
+    ["FOOD100","WELCOME50","FREEDEL"];
+
+    if(!valid.includes(code)){
+
+        showToast(
+            "Invalid coupon code ❌"
+        );
+
+        return;
+
+    }
+
+    coupon=code;
+
+    calculatePrice();
+
+    showToast(
+        "Coupon applied 🎉"
+    );
+
+}
+
+
+function openCart(){
+
+    document
+    .getElementById("cartSide")
+    .classList.add("show");
+
+    document
+    .getElementById("cartBackdrop")
+    .classList.add("show");
+
+    displayCart();
+
+}
+
+
+function closeCart(){
+
+    document
+    .getElementById("cartSide")
+    .classList.remove("show");
+
+    document
+    .getElementById("cartBackdrop")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function openProfile(tab="profile"){
+
+    renderProfile(tab);
+
+    document
+    .getElementById("profileModal")
+    .classList.add("show");
+
+}
+
+
+function closeProfile(){
+
+    document
+    .getElementById("profileModal")
+    .classList.remove("show");
+
+}
+
+
+function renderProfile(tab){
+
+    const container =
+    document.getElementById(
+        "profileContent"
+    );
+
+    const userName =
+    profile?.name || "Guest User";
+
+    const photo =
+    profile?.photo || "";
+
+    container.innerHTML=`
+
+        <div class="profile-header">
+
+            <div class="profile-photo">
+
+                ${
+                    photo
+                    ?
+                    `<img src="${photo}">`
+                    :
+                    "👤"
+                }
+
+            </div>
+
+            <div>
+
+                <h2>${userName}</h2>
+
+                <p style="color:#777">
+                    ${
+                        profile?.email ||
+                        "Create your FoodGo profile"
+                    }
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="profile-tabs">
+
+            <button
+                class="profile-tab ${tab==="profile"?"active":""}"
+                onclick="renderProfile('profile')"
+            >
+                👤 Profile
+            </button>
+
+            <button
+                class="profile-tab ${tab==="addresses"?"active":""}"
+                onclick="renderProfile('addresses')"
+            >
+                📍 Addresses
+            </button>
+
+            <button
+                class="profile-tab ${tab==="orders"?"active":""}"
+                onclick="renderProfile('orders')"
+            >
+                📦 Orders
+            </button>
+
+            <button
+                class="profile-tab ${tab==="favorites"?"active":""}"
+                onclick="renderProfile('favorites')"
+            >
+                ❤️ Favorites
+            </button>
+
+        </div>
+
+        <div class="profile-content">
+
+            ${
+                tab==="profile"
+                ? profileForm()
+                : ""
+            }
+
+            ${
+                tab==="addresses"
+                ? addressContent()
+                : ""
+            }
+
+            ${
+                tab==="orders"
+                ? orderContent()
+                : ""
+            }
+
+            ${
+                tab==="favorites"
+                ? favoriteContent()
+                : ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function profileForm(){
+
+    return `
+
+        <h3>
+            ${profile ? "Edit Profile" : "Create Your Profile"}
+        </h3>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Full Name</label>
+
+                <input
+                    id="profileName"
+                    value="${profile?.name || ""}"
+                    placeholder="Enter full name"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    id="profileEmail"
+                    type="email"
+                    value="${profile?.email || ""}"
+                    placeholder="Enter email"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Mobile Number</label>
+
+                <input
+                    id="profilePhone"
+                    value="${profile?.phone || ""}"
+                    placeholder="Enter mobile number"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Date of Birth</label>
+
+                <input
+                    id="profileDOB"
+                    type="date"
+                    value="${profile?.dob || ""}"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Gender</label>
+
+                <select id="profileGender">
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option
+                        ${profile?.gender==="Male"?"selected":""}
+                    >
+                        Male
+                    </option>
+
+                    <option
+                        ${profile?.gender==="Female"?"selected":""}
+                    >
+                        Female
+                    </option>
+
+                    <option
+                        ${profile?.gender==="Other"?"selected":""}
+                    >
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Profile Photo</label>
+
+                <input
+                    id="profilePhoto"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewPhoto(event)"
+                >
+
+            </div>
+
+            <div class="form-group full">
+
+                <label>Bio</label>
+
+                <textarea
+                    id="profileBio"
+                    placeholder="Tell us something about you..."
+                >${profile?.bio || ""}</textarea>
+
+            </div>
+
+        </div>
+
+        <div style="
+            display:flex;
+            gap:10px;
+            margin-top:15px;
+        ">
+
+            <button
+                class="primary-btn"
+                onclick="saveProfile()"
+            >
+                SAVE PROFILE
+            </button>
+
+            ${
+                profile
+                ?
+                `
+                <button
+                    class="secondary-btn"
+                    onclick="logout()"
+                >
+                    LOGOUT
+                </button>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+function previewPhoto(event){
+
+    const file =
+    event.target.files[0];
+
+    if(!file) return;
+
+    const reader =
+    new FileReader();
+
+    reader.onload=function(){
+
+        profile =
+        profile || {};
+
+        profile.photo =
+        reader.result;
+
+        renderProfile("profile");
+
+        showToast(
+            "Photo selected"
+        );
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function saveProfile(){
+
+    const name =
+    document
+    .getElementById("profileName")
+    .value.trim();
+
+    const email =
+    document
+    .getElementById("profileEmail")
+    .value.trim();
+
+    const phone =
+    document
+    .getElementById("profilePhone")
+    .value.trim();
+
+    if(!name || !email || !phone){
+
+        showToast(
+            "Please fill required fields"
+        );
+
+        return;
+
+    }
+
+    profile = {
+
+        name:name,
+
+        email:email,
+
+        phone:phone,
+
+        dob:
+        document
+        .getElementById("profileDOB")
+        .value,
+
+        gender:
+        document
+        .getElementById("profileGender")
+        .value,
+
+        bio:
+        document
+        .getElementById("profileBio")
+        .value,
+
+        photo:
+        profile?.photo || ""
+
+    };
+
+    saveAll();
+
+    updateHeader();
+
+    showToast(
+        "Profile saved successfully 🎉"
+    );
+
+    renderProfile("profile");
+
+}
+
+
+function logout(){
+
+    profile=null;
+
+    saveAll();
+
+    updateHeader();
+
+    showToast(
+        "Logged out successfully"
+    );
+
+    renderProfile("profile");
+
+}
+
+
+function updateHeader(){
+
+    document
+    .getElementById("headerUser")
+    .innerText =
+    profile?.name
+    ?
+    profile.name
+    :
+    "Sign In";
+
+    if(addresses.length){
+
+        const home =
+        addresses.find(
+            x=>x.type==="Home"
+        ) || addresses[0];
+
+        document
+        .getElementById(
+            "headerAddress"
+        )
+        .innerText =
+        home.label ||
+        home.type;
+
+    }else{
+
+        document
+        .getElementById(
+            "headerAddress"
+        )
+        .innerText =
+        "Select address ▾";
+
+    }
+
+}
+
+
+/* =====================================================
+   ADDRESSES
+===================================================== */
+
+function addressContent(){
+
+    let html=`
+
+        <h3>Saved Addresses</h3>
+
+        <div
+            class="address-grid"
+            style="margin-top:18px"
+        >
+    `;
+
+    if(!addresses.length){
+
+        html+=`
+
+            <div style="
+                grid-column:1/-1;
+                padding:30px;
+                text-align:center;
+                background:#fafafa;
+                border-radius:12px;
+            ">
+
+                📍
+
+                <h3>No saved addresses</h3>
+
+                <p style="
+                    color:#777;
+                    margin:8px 0 15px;
+                ">
+                    Add your delivery address.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    addresses.forEach(
+        (a,index)=>{
+
+            html+=`
+
+                <div class="address-card">
+
+                    <h3>
+                        ${a.type==="Home"?"🏠":"📍"}
+                        ${a.label || a.type}
+                    </h3>
+
+                    <p>
+                        ${a.address}
+                    </p>
+
+                    <p>
+                        ${a.city},
+                        ${a.pincode}
+                    </p>
+
+                    <div class="address-actions">
+
+                        <button
+                            class="primary-btn"
+                            onclick="
+                            selectAddress(${index})
+                            "
+                        >
+                            DELIVER HERE
+                        </button>
+
+                        <button
+                            class="secondary-btn"
+                            onclick="
+                            deleteAddress(${index})
+                            "
+                        >
+                            DELETE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    html+=`
+
+        </div>
+
+        <hr style="
+            border:0;
+            border-top:1px solid #eee;
+            margin:25px 0;
+        ">
+
+        <h3>Add New Address</h3>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Address Type</label>
+
+                <select id="addressType">
+
+                    <option>Home</option>
+                    <option>Work</option>
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Label</label>
+
+                <input
+                    id="addressLabel"
+                    placeholder="Eg: My Home"
+                >
+
+            </div>
+
+            <div class="form-group full">
+
+                <label>Full Address</label>
+
+                <textarea
+                    id="addressText"
+                    placeholder="House number, street, area..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>City</label>
+
+                <input
+                    id="addressCity"
+                    placeholder="City"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>PIN Code</label>
+
+                <input
+                    id="addressPin"
+                    placeholder="PIN code"
+                >
+
+            </div>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            style="margin-top:10px"
+            onclick="saveAddress()"
+        >
+            ADD ADDRESS
+        </button>
+
+    `;
+
+    return html;
+
+}
+
+
+function saveAddress(){
+
+    const type =
+    document
+    .getElementById("addressType")
+    .value;
+
+    const label =
+    document
+    .getElementById("addressLabel")
+    .value.trim();
+
+    const address =
+    document
+    .getElementById("addressText")
+    .value.trim();
+
+    const city =
+    document
+    .getElementById("addressCity")
+    .value.trim();
+
+    const pincode =
+    document
+    .getElementById("addressPin")
+    .value.trim();
+
+    if(!address || !city || !pincode){
+
+        showToast(
+            "Please complete the address"
+        );
+
+        return;
+
+    }
+
+    addresses.push({
+
+        type:type,
+        label:label || type,
+        address:address,
+        city:city,
+        pincode:pincode
+
+    });
+
+    saveAll();
+
+    updateHeader();
+
+    showToast(
+        "Address added 📍"
+    );
+
+    renderProfile("addresses");
+
+}
+
+
+function deleteAddress(index){
+
+    addresses.splice(
+        index,
+        1
+    );
+
+    saveAll();
+
+    updateHeader();
+
+    renderProfile("addresses");
+
+}
+
+
+function selectAddress(index){
+
+    const a =
+    addresses[index];
+
+    localStorage.setItem(
+        "foodgoSelectedAddress",
+        JSON.stringify(a)
+    );
+
+    updateHeader();
+
+    showToast(
+        "Delivery address selected 📍"
+    );
+
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+function orderContent(){
+
+    if(!orders.length){
+
+        return `
+
+            <div style="
+                text-align:center;
+                padding:45px;
+            ">
+
+                <div style="font-size:60px">
+                    📦
+                </div>
+
+                <h3>No orders yet</h3>
+
+                <p style="
+                    color:#777;
+                    margin-top:8px;
+                ">
+                    Your completed orders will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    let html="";
+
+    orders
+    .slice()
+    .reverse()
+    .forEach(
+        (order,index)=>{
+
+            html+=`
+
+                <div class="order-card">
+
+                    <div class="order-top">
+
+                        <div>
+
+                            <b>
+                                Order #${order.id}
+                            </b>
+
+                            <br>
+
+                            <small>
+                                ${order.date}
+                            </small>
+
+                        </div>
+
+                        <div class="order-status">
+
+                            ${order.status}
+
+                        </div>
+
+                    </div>
+
+                    <div class="order-items">
+
+                        ${order.items
+                        .map(
+                            x=>
+                            `${x.name} × ${x.quantity}`
+                        )
+                        .join("<br>")}
+
+                    </div>
+
+                    <b>
+                        Total: ₹${order.total}
+                    </b>
+
+                    <br><br>
+
+                    <button
+                        onclick="trackOrder('${order.id}')"
+                    >
+                        TRACK ORDER
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    return html;
+
+}
+
+
+/* =====================================================
+   FAVORITES PAGE
+===================================================== */
+
+function favoriteContent(){
+
+    const favRestaurants =
+    restaurants.filter(
+        r=>favorites.includes(r.id)
+    );
+
+    if(!favRestaurants.length){
+
+        return `
+
+            <div style="
+                text-align:center;
+                padding:45px;
+            ">
+
+                <div style="font-size:60px">
+                    ❤️
+                </div>
+
+                <h3>No favorites yet</h3>
+
+                <p style="color:#777;margin-top:8px">
+                    Tap the heart on a restaurant to save it.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    let html="";
+
+    favRestaurants.forEach(r=>{
+
+        html+=`
+
+            <div class="order-card">
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:15px;
+                ">
+
+                    <div style="font-size:50px">
+                        ${r.emoji}
+                    </div>
+
+                    <div style="flex:1">
+
+                        <h3>${r.name}</h3>
+
+                        <p style="color:#777">
+                            ★ ${r.rating}
+                            • ${r.time}
+                        </p>
+
+                    </div>
+
+                    <button
+                        onclick="openMenu(${r.id})"
+                    >
+                        VIEW
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    return html;
+
+}
+
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+
+function openCheckout(){
+
+    if(!cart.length){
+
+        showToast(
+            "Your cart is empty"
+        );
+
+        return;
+
+    }
+
+    if(!profile){
+
+        showToast(
+            "Create your profile first"
+        );
+
+        closeCart();
+
+        openProfile("profile");
+
+        return;
+
+    }
+
+    if(!addresses.length){
+
+        showToast(
+            "Please add a delivery address"
+        );
+
+        closeCart();
+
+        openProfile("addresses");
+
+        return;
+
+    }
+
+    const selected =
+    JSON.parse(
+        localStorage.getItem(
+            "foodgoSelectedAddress"
+        ) || "null"
+    ) || addresses[0];
+
+    const subtotal =
+    calculateSubtotal();
+
+    let discount=0;
+
+    let delivery =
+    subtotal>=299 ? 0 : 40;
+
+    if(coupon==="FOOD100"){
+        discount=Math.min(100,subtotal);
+    }
+
+    if(coupon==="WELCOME50"){
+        discount=Math.min(50,subtotal*.5);
+    }
+
+    if(coupon==="FREEDEL"){
+        delivery=0;
+    }
+
+    const platform =
+    subtotal>0 ? 5 : 0;
+
+    const gst =
+    Math.round(
+        (subtotal-discount)*.05
+    );
+
+    const total =
+    subtotal-
+    discount+
+    delivery+
+    platform+
+    gst;
+
+    document
+    .getElementById("checkoutContent")
+    .innerHTML=`
+
+        <div class="delivery-card">
+
+            <b>📍 Deliver to</b>
+
+            <p style="
+                margin-top:7px;
+                color:#666;
+            ">
+
+                ${selected.address}<br>
+
+                ${selected.city},
+                ${selected.pincode}
+
+            </p>
+
+        </div>
+
+        <h3 style="margin-top:25px">
+            Payment Method
+        </h3>
+
+        <div class="checkout-options">
+
+            <label
+                class="payment-option selected"
+                onclick="selectPayment(this)"
+            >
+
+                <input
+                    type="radio"
+                    name="payment"
+                    value="UPI"
+                    checked
+                >
+
+                📱 UPI
+
+            </label>
+
+            <label
+                class="payment-option"
+                onclick="selectPayment(this)"
+            >
+
+                <input
+                    type="radio"
+                    name="payment"
+                    value="Card"
+                >
+
+                💳 Credit / Debit Card
+
+            </label>
+
+            <label
+                class="payment-option"
+                onclick="selectPayment(this)"
+            >
+
+                <input
+                    type="radio"
+                    name="payment"
+                    value="COD"
+                >
+
+                💵 Cash on Delivery
+
+            </label>
+
+        </div>
+
+        <div class="price-summary">
+
+            <div class="price-row">
+                <span>Subtotal</span>
+                <span>₹${subtotal}</span>
+            </div>
+
+            <div class="price-row">
+                <span>Discount</span>
+                <span>-₹${discount}</span>
+            </div>
+
+            <div class="price-row">
+                <span>Delivery</span>
+                <span>₹${delivery}</span>
+            </div>
+
+            <div class="price-row">
+                <span>Platform fee</span>
+                <span>₹${platform}</span>
+            </div>
+
+            <div class="price-row">
+                <span>GST</span>
+                <span>₹${gst}</span>
+            </div>
+
+            <div class="price-row total">
+                <span>Payable</span>
+                <span>₹${total}</span>
+            </div>
+
+        </div>
+
+        <button
+            class="checkout-btn"
+            onclick="placeOrder(${total})"
+        >
+            PLACE ORDER • ₹${total}
+        </button>
+
+    `;
+
+    document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+
+}
+
+
+function closeCheckout(){
+
+    document
+    .getElementById("checkoutModal")
+    .classList.remove("show");
+
+}
+
+
+function selectPayment(element){
+
+    document
+    .querySelectorAll(".payment-option")
+    .forEach(
+        x=>x.classList.remove("selected")
+    );
+
+    element.classList.add("selected");
+
+}
+
+
+function placeOrder(total){
+
+    const payment =
+    document
+    .querySelector(
+        'input[name="payment"]:checked'
+    )?.value || "UPI";
+
+    const items =
+    cart.map(item=>{
+
+        const r =
+        restaurants.find(
+            x=>x.id===item.restaurantID
+        );
+
+        const dish =
+        r.dishes[item.dishIndex];
+
+        return {
+
+            name:dish[0],
+            quantity:item.quantity,
+            price:dish[2]
+
+        };
+
+    });
+
+    const order={
+
+        id:
+        Math.floor(
+            100000+
+            Math.random()*900000
+        )
+        .toString(),
+
+        date:
+        new Date().toLocaleString(),
+
+        items:items,
+
+        total:total,
+
+        payment:payment,
+
+        status:"Order Placed",
+
+        progress:0
+
+    };
+
+    orders.push(order);
+
+    cart=[];
+
+    coupon=null;
+
+    saveAll();
+
+    updateCart();
+
+    closeCart();
+
+    closeCheckout();
+
+    showToast(
+        "Order placed successfully 🎉"
+    );
+
+    setTimeout(
+        ()=>trackOrder(order.id),
+        600
+    );
+
+}
+
+
+/* =====================================================
+   TRACK ORDER
+===================================================== */
+
+function trackOrder(id){
+
+    const order =
+    orders.find(
+        x=>x.id===id
+    );
+
+    if(!order) return;
+
+    document
+    .getElementById("trackingContent")
+    .innerHTML=`
+
+        <div style="
+            text-align:center;
+            margin-top:25px;
+        ">
+
+            <div style="font-size:70px">
+                🛵
+            </div>
+
+            <h3 id="trackingStatus">
+                ${order.status}
+            </h3>
+
+            <p style="
+                color:#777;
+                margin-top:8px;
+            ">
+                Order #${order.id}
+            </p>
+
+        </div>
+
+        <div class="tracking">
+
+            <div class="track-line">
+
+                <div
+                    class="track-progress"
+                    id="trackProgress"
+                ></div>
+
+                <div
+                    class="track-dot d1 active"
+                    id="dot1"
+                ></div>
+
+                <div
+                    class="track-dot d2"
+                    id="dot2"
+                ></div>
+
+                <div
+                    class="track-dot d3"
+                    id="dot3"
+                ></div>
+
+                <div
+                    class="track-dot d4"
+                    id="dot4"
+                ></div>
+
+            </div>
+
+            <div class="track-labels">
+
+                <span>Placed</span>
+
+                <span>Preparing</span>
+
+                <span>Picked Up</span>
+
+                <span>Delivered</span>
+
+            </div>
+
+        </div>
+
+    `;
+
+    document
+    .getElementById("trackingModal")
+    .classList.add("show");
+
+    animateTracking(order);
+
+}
+
+
+function animateTracking(order){
+
+    let progress =
+    order.progress || 0;
+
+    const statuses=[
+        "Order Placed",
+        "Preparing Food",
+        "Picked Up",
+        "Delivered"
+    ];
+
+    const widths=[
+        0,
+        33,
+        66,
+        100
+    ];
+
+    let step=progress;
+
+    function update(){
+
+        document
+        .getElementById(
+            "trackingStatus"
+        )
+        .innerText=
+        statuses[step];
+
+        document
+        .getElementById(
+            "trackProgress"
+        )
+        .style.width=
+        widths[step]+"%";
+
+        for(
+            let i=1;
+            i<=4;
+            i++
+        ){
+
+            document
+            .getElementById(
+                "dot"+i
+            )
+            .classList.toggle(
+                "active",
+                i<=step+1
+            );
+
+        }
+
+        order.status=
+        statuses[step];
+
+        order.progress=
+        step;
+
+        saveAll();
+
+        if(step<3){
+
+            setTimeout(
+                ()=>{
+                    step++;
+                    update();
+                },
+                3000
+            );
+
+        }
+
+    }
+
+    update();
+
+}
+
+
+function closeTracking(){
+
+    document
+    .getElementById("trackingModal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function scrollToRestaurants(){
+
+    document
+    .getElementById("restaurantSection")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+function scrollTopHome(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+    document.getElementById("toast");
+
+    toast.innerText=message;
+
+    toast.classList.add("show");
+
+    setTimeout(
+        ()=>{
+            toast.classList.remove("show");
+        },
+        2200
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+displayRestaurants();
+
+updateCart();
+
+updateHeader();
+
+</script>
+
+</body>
+</html>
